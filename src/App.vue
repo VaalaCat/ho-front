@@ -15,51 +15,49 @@
         text
         block
         @click="
-          func = 'sgk';
+          func = 'apply';
           drawer = !drawer;
         "
-        >社工库</v-btn
+        >挂号系统</v-btn
+      >
+      <v-btn
+        text
+        block
+        @click="
+          func = 'introduction';
+          drawer = !drawer;
+        "
+        >医生介绍</v-btn
       >
     </v-navigation-drawer>
 
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>VaalaCloud</v-toolbar-title>
+      <v-toolbar-title>医院门户</v-toolbar-title>
       <v-spacer></v-spacer>
       <div v-if="loggedIn">
         <v-btn text rounded @click="logout">登出</v-btn>
       </div>
-      <div v-else>
-        <v-btn text rounded @click="reg = false">登录</v-btn>
-        <v-btn text rounded @click="reg = true">注册</v-btn>
-      </div>
+      <div v-else><Login /><Reg /></div>
     </v-app-bar>
 
     <v-main>
       <v-expand-transition>
-        <div v-if="!loggedIn">
-          <v-expand-transition v-if="!reg">
-            <Login />
-          </v-expand-transition>
-          <v-expand-transition v-else>
-            <Reg />
-          </v-expand-transition>
-        </div>
+        <div v-if="func === 'apply'"><Apply /></div>
       </v-expand-transition>
-      <v-expand-transition>
-        <div v-if="func === 'sgk'">
-          <Sgk />
-        </div>
-      </v-expand-transition>
+      <v-expand-transition
+        ><div v-if="func === 'introduction'"><Introduction /></div
+      ></v-expand-transition>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import Login from "./components/Login";
-import Sgk from "./components/Sgk";
 import Reg from "./components/Reg";
+import Apply from "./components/Apply";
+import Introduction from "./components/Introduction";
 import { get } from "./utils/http";
 
 export default {
@@ -70,10 +68,11 @@ export default {
     reg: false,
     networkError: false,
     timer: "",
+    func: "introduction",
   }),
   methods: {
     loginCheck: function () {
-      get("user").then(
+      get("verify").then(
         (res) => {
           if (res.data.code == "0") {
             this.loggedIn = true;
@@ -102,8 +101,9 @@ export default {
   },
   components: {
     Login,
-    Sgk,
     Reg,
+    Apply,
+    Introduction,
   },
 };
 </script>
