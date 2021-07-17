@@ -24,7 +24,7 @@ publish_package:
   stage: deploy
   script:
     - |
-      mv ./dist public
+      ls -la
   artifacts:
     paths:
       - public
