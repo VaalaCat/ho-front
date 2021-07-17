@@ -27,7 +27,7 @@ cache:
     - node_modules/
 
 
-publish_package:
+pages:
   stage: deploy
   script:
     - rm -rf public/*
