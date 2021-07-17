@@ -12,7 +12,7 @@ default:
       fi
     - NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
     - NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
-    - npm install
+    - npm install --registry https://registry.npm.taobao.org
 
 create_npmrc:
   stage: build
@@ -24,7 +24,7 @@ publish_package:
   stage: deploy
   script:
     - |
-      mv dist public
+      mv ./dist public
   artifacts:
     paths:
       - public
