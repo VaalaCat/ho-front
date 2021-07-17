@@ -23,8 +23,8 @@ create_npmrc:
 publish_package:
   stage: deploy
   script:
-    - |
-      ls -la
+    - npm run build
+    - mv dist public
   artifacts:
     paths:
       - public
