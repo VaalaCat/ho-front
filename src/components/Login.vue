@@ -7,12 +7,18 @@
     <v-card>
       <v-form ref="form">
         <v-container>
-          <v-text-field v-model="email" label="E-mail" required />
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="E-mail"
+            required
+          />
 
           <v-text-field
             v-model="password"
             label="Password"
             type="password"
+            :rules="passwordRules"
             required
           />
 
@@ -80,7 +86,9 @@ export default {
             if (res.data.code == "0") {
               this.loginSuccessful = true;
               this.loginError = false;
-              location.reload();
+              setTimeout(() => {
+                location.reload();
+              }, 200);
             } else {
               this.loginSuccessful = false;
               this.loginError = true;

@@ -62,59 +62,33 @@
       </v-col>
       <v-col cols="3" sm="2"><v-btn @click="submit" large>预约</v-btn></v-col>
     </v-row>
-
-    <v-row v-if="role == 'doctor'">
-      <v-col class="d-flex" sm="4">
-        <v-btn x-large @click="show">刷新</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn x-large @click="accept">接受</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn x-large @click="disallow">驳回</v-btn></v-col
-      >
-    </v-row>
     <v-row v-if="role == 'normal'">
-      <v-btn x-large @click="show">刷新</v-btn>
       <v-spacer></v-spacer>
-      <v-col class="d-flex" sm="4">
-        <v-btn x-large @click="disallow">删除</v-btn></v-col
-      >
+      <v-col class="d-flex" sm="4"> </v-col>
     </v-row>
     <v-spacer></v-spacer>
-    <v-expansion-panels v-if="role == 'doctor'">
-      <v-expansion-panel v-for="(item, i) in applylist" :key="i">
-        <v-expansion-panel-header>
-          病人：{{ item.nname }}
+
+    <v-data-table
+      v-model="selected"
+      :headers="headers"
+      :items="applylist"
+      :single-select="singleSelect"
+      item-key="id"
+      show-select
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-switch v-model="singleSelect" label="单选" class="pa-3"></v-switch>
+          <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-
-          <v-checkbox
-            v-model="selected"
-            :value="item.id"
-            :label="item.id"
-          ></v-checkbox>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          预约时间：{{ item.atime }}<br />处理状态：{{ item.archivetime }}
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-
-    <v-expansion-panels v-if="role == 'normal'">
-      <v-expansion-panel v-for="(item, i) in applylist" :key="i">
-        <v-expansion-panel-header>
-          医生：{{ item.dname }}
-          <v-spacer></v-spacer>
-          <v-checkbox
-            v-model="selected"
-            :value="item.id"
-            :label="item.id"
-          ></v-checkbox>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          预约时间：{{ item.atime }}<br />处理状态：{{ item.archivetime }}
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-
+          <v-btn @click="show">刷新</v-btn>
+          <v-btn @click="disallow" v-if="role == 'normal'">取消</v-btn>
+          <v-btn @click="disallow" v-if="role == 'doctor'">驳回</v-btn>
+          <v-btn @click="accept" v-if="role == 'doctor'">接受</v-btn>
+        </v-toolbar>
+      </template>
+    </v-data-table>
     <v-col v-if="!role"
       ><v-alert color="red" type="error"> 此功能需要登陆 </v-alert></v-col
     >
@@ -152,6 +126,18 @@ export default {
       optsucc: false,
       doctorlist: {},
       doc: "",
+      headers: [
+        {
+          text: "挂号ID",
+          align: "start",
+          sortable: false,
+          value: "id",
+        },
+        { text: "预约时间", value: "atime" },
+        { text: "处理状态", value: "archivetime" },
+        { text: "患者名字", value: "nname" },
+        { text: "医生名字", value: "dname" },
+      ],
     };
   },
   methods: {

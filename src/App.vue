@@ -110,7 +110,9 @@ export default {
     },
     logout: function () {
       localStorage.clear();
-      location.reload();
+      setTimeout(() => {
+        location.reload();
+      }, 200);
     },
     admin: function () {
       get("admin/check").then((res) => {

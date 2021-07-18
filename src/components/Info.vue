@@ -85,7 +85,9 @@ export default {
             if (res.data.code == "0") {
               this.loginSuccessful = true;
               this.loginError = false;
-              location.reload();
+              setTimeout(() => {
+                location.reload();
+              }, 200);
             } else {
               this.loginSuccessful = false;
               this.loginError = true;
