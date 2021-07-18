@@ -21,6 +21,11 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+    <v-expand-transition>
+      <v-col v-if="nullErr">
+        <v-alert color="red" type="error"> 请选择科室 </v-alert>
+      </v-col>
+    </v-expand-transition>
   </v-container>
 </template>
 
@@ -34,13 +39,19 @@ export default {
       doctor: null,
       aff: [],
       selected: null,
+      nullErr: false,
     };
   },
   methods: {
     show: function () {
-      get("/introduction", { aff: this.selected }).then((res) => {
-        this.doctor = res.data.msg;
-      });
+      this.nullErr = false;
+      if (this.selected)
+        get("/introduction", { aff: this.selected }).then((res) => {
+          this.doctor = res.data.msg;
+        });
+      else {
+        this.nullErr = true;
+      }
     },
   },
   mounted() {

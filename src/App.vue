@@ -29,6 +29,17 @@
         "
         >医生介绍</v-btn
       >
+
+      <v-btn
+        text
+        block
+        @click="
+          func = 'admin';
+          drawer = !drawer;
+        "
+        v-show="role === 'admin'"
+        >管理后台</v-btn
+      >
     </v-navigation-drawer>
 
     <v-app-bar app>
@@ -37,7 +48,7 @@
       <v-toolbar-title>医院门户</v-toolbar-title>
       <v-spacer></v-spacer>
       <div v-if="loggedIn">
-        <v-btn text rounded @click="logout">登出</v-btn>
+        <v-btn text rounded @click="logout">登出</v-btn><Info />
       </div>
       <div v-else><Login /><Reg /></div>
     </v-app-bar>
@@ -49,6 +60,9 @@
       <v-expand-transition
         ><div v-if="func === 'introduction'"><Introduction /></div
       ></v-expand-transition>
+      <v-expand-transition
+        ><div v-if="func === 'admin' && role === 'admin'"><Admin /></div
+      ></v-expand-transition>
     </v-main>
   </v-app>
 </template>
@@ -58,6 +72,8 @@ import Login from "./components/Login";
 import Reg from "./components/Reg";
 import Apply from "./components/Apply";
 import Introduction from "./components/Introduction";
+import Admin from "./components/Admin";
+import Info from "./components/Info";
 import { get } from "./utils/http";
 
 export default {
@@ -69,6 +85,7 @@ export default {
     networkError: false,
     timer: "",
     func: "introduction",
+    role: "normal",
   }),
   methods: {
     loginCheck: function () {
@@ -89,10 +106,16 @@ export default {
           }
         }
       );
+      this.admin();
     },
     logout: function () {
       localStorage.clear();
       location.reload();
+    },
+    admin: function () {
+      get("admin/check").then((res) => {
+        this.role = res.data.msg;
+      });
     },
   },
   mounted() {
@@ -104,6 +127,8 @@ export default {
     Reg,
     Apply,
     Introduction,
+    Admin,
+    Info,
   },
 };
 </script>

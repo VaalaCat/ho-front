@@ -168,6 +168,8 @@ export default {
       });
     },
     show: function () {
+      this.optsucc = false;
+      this.ans = "";
       get("apply/show").then((res) => {
         console.log(res.data);
         this.applylist = res.data.msg;
