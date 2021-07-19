@@ -11,7 +11,7 @@
         hide-default-footer
       >
         <template v-slot:header>
-          <v-toolbar dark color="blue darken-3" class="mb-1">
+          <v-toolbar class="mb-1">
             <v-text-field
               v-model="search"
               clearable
@@ -42,13 +42,13 @@
                 prepend-inner-icon="mdi-magnify"
                 label="科室"
               ></v-select>
-              <v-col @click="show"><v-btn x-large>查询</v-btn></v-col>
+              <v-col @click="show"><v-btn>查询</v-btn></v-col>
               <v-spacer></v-spacer>
               <v-btn-toggle v-model="sortDesc" mandatory>
-                <v-btn large depressed color="blue" :value="false">
+                <v-btn large depressed :value="false">
                   <v-icon>mdi-arrow-up</v-icon>
                 </v-btn>
-                <v-btn large depressed color="blue" :value="true">
+                <v-btn large depressed :value="true">
                   <v-icon>mdi-arrow-down</v-icon>
                 </v-btn>
               </v-btn-toggle>
@@ -131,8 +131,6 @@
             </span>
             <v-btn
               fab
-              dark
-              color="blue darken-3"
               class="mr-1"
               @click="formerPage"
             >
@@ -140,8 +138,6 @@
             </v-btn>
             <v-btn
               fab
-              dark
-              color="blue darken-3"
               class="ml-1"
               @click="nextPage"
             >
